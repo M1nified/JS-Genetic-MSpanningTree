@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "build/main.js",
+        "sourceMap": true
+    },
+    "files": [
+        "src/Types.ts",
+        "src/MST.ts"
+    ]
+}
