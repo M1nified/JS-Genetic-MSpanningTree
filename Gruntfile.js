@@ -12,7 +12,8 @@ module.exports = function(grunt){
           // noImplicitAny: true,
           removeComments: true,
           preserveConstEnums: true,
-          sourceMap: true
+          sourceMap: true,
+          declaration:true
         },
         src:["src/Types.ts","src/MST.ts"],
         dest:'build/main.js' 
