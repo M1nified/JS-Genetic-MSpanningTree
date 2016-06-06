@@ -8,7 +8,8 @@ Wykrzystanie programowania genetycznego w poszukiwaniu minimalnego drzewa rozpin
 
 ## Dostępne operacje genetyczne
 * __mutacja__ to odwrócenie losowo wybranego ***genu***
-* __krzyżowanie__/__krosowanie__ oznacza rozmnożenie ze sobą dwóch ***chromosomów*** poprzez ich podział w losowym miejscu. Długość nowych ***dzieci*** jest taka sama jak ***rodziców***.   
+* __krzyżowanie__/__krosowanie__ oznacza rozmnożenie ze sobą dwóch ***chromosomów*** poprzez ich podział w losowym miejscu. Długość nowych ***dzieci*** jest taka sama jak ***rodziców***.  
+* __selekcja__ czyli wybieranie, losowe z "wagami" zależnymi od jakości ***chromosomu***, elementów do następnego pokolenia
 
 ## Deklaracje typów
 ### 1. Krawędź - ***gen***
@@ -72,7 +73,9 @@ Możliwe operacje to
 * `sortByValue()` - sortuje pokolenia na podstawie przystosowania ***chromosomów***
 * `genMutate()` - wykonuje __mutacje__ losowego ***chromosomu***
 * `genCross()` - __krzyżuje__ losowy ***chromosom***
-* `genEvolve()` - wykonuje losowo jedną z operacji i tworzy nowe pokolenie zastępujące dotychczasowe
+* `genEvolve()` - wykonuje jeden cykl ewolucji
+* `genQuotation()` - ocenia ***chromosomy*** i nadaje im wagi do oceny
+* `genSelection()` - wykonuje selekcje na podstawie oceny obliczonych wag
 
 ``` typescript
 declare class MST {
@@ -80,14 +83,18 @@ declare class MST {
     family: Graph[];
     size: number;
     maxIter: number;
+    values: number[];
+    valsum: number;
     constructor(god: Graph);
     findMST(): Graph;
     makeFamily(): MST;
     sortByValue(): MST;
     genMutate(): MST;
-    genCrossSelectLinear(): Graph[];
+    genSelectLinearPair(): Graph[];
     genCross(): MST;
     genEvolve(): MST;
+    genQuotation(): MST;
+    genSelection(): MST;
 }
 ```
 
