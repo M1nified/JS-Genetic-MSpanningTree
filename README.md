@@ -1,4 +1,4 @@
-# Minimalne Drzewo Rozpinające (Minimum Spanning Tree)
+# Minimalne Drzewo Rozpinające (MST)
 ## Problem
 Wykrzystanie programowania genetycznego w poszukiwaniu minimalnego drzewa rozpinającego.
 ## Nazwy
