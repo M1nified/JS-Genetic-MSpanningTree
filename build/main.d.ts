@@ -30,7 +30,7 @@ declare class MST {
     constructor(god: Graph);
     findMST(): Graph;
     makeFamily(): MST;
-    sortByWeight(): MST;
+    sortByValue(): MST;
     genMutate(): MST;
     genCrossSelectLinear(): Graph[];
     genCross(): MST;

@@ -98,7 +98,7 @@ class MST{
     }
     return this;
   }
-  sortByWeight():MST{
+  sortByValue():MST{
     this.family.sort((a,b)=>{
       return a.value() - b.value();
     })
@@ -109,7 +109,7 @@ class MST{
     return this;
   }
   genCrossSelectLinear(){
-    this.sortByWeight();
+    this.sortByValue();
     return [this.family[0],this.family[1]];
   }
   genCross(){
