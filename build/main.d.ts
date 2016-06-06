@@ -27,14 +27,18 @@ declare class MST {
     family: Graph[];
     size: number;
     maxIter: number;
+    values: number[];
+    valsum: number;
     constructor(god: Graph);
     findMST(): Graph;
     makeFamily(): MST;
     sortByValue(): MST;
     genMutate(): MST;
-    genCrossSelectLinear(): Graph[];
+    genSelectLinearPair(): Graph[];
     genCross(): MST;
     genEvolve(): MST;
+    genQuotation(): MST;
+    genSelection(): MST;
 }
 declare var module: any;
 declare var graph: Graph;

@@ -26,7 +26,7 @@ class Graph {
   constructor(arr:Edge[]=[]){
     this.arr = arr;
   }
-  value():number{
+  value():number{//less is better
     let sum = 0;
     this.arr.forEach(element => {
       sum += element.inuse !== false ? element.weight : 0;
@@ -59,6 +59,9 @@ class Graph {
       return Graph.genCross(this,snd,pivot);
   }
   static genCross(g1:Graph,g2:Graph,pivot:number){
+      if(!g1 || !g2){
+        return [g1,g2];
+      }
       // console.log(g1.slicedHead(pivot),g2.slicedTail(pivot))
       let tmp1:Edge[] = g1.slicedHead(pivot).concat(g2.slicedTail(pivot));
       let tmp2:Edge[] = g1.slicedTail(pivot).concat(g2.slicedHead(pivot));
@@ -78,8 +81,10 @@ class Graph {
 class MST{
   god:Graph
   family:Graph[] = []
-  size:number = 4
-  maxIter:number = 40;
+  size:number = 100
+  maxIter:number = 400;
+  values:number[] = [];
+  valsum:number = 0;
   constructor(god:Graph){
     this.god = god;
   }
@@ -90,7 +95,7 @@ class MST{
       this.genEvolve();
       console.log(this.family[0].toString(),'\n');
     }
-    return this.god;
+    return this.sortByValue().family[0];
   }
   makeFamily():MST{
     for(let i = 0;i<this.size;i++){
@@ -105,27 +110,48 @@ class MST{
     return this;
   }
   genMutate(){
-    this.family[Math.floor(Math.random()*this.family.length)].genMutate();
+    let rnd = Math.floor(Math.random()*(this.family.length-1));
+    this.family[rnd] && this.family[rnd].genMutate();
     return this;
   }
-  genCrossSelectLinear(){
+  genSelectLinearPair(){
     this.sortByValue();
     return [this.family[0],this.family[1]];
   }
   genCross(){
-    let tocorss = this.genCrossSelectLinear();
+    let tocorss = this.genSelectLinearPair();
     let crossed = tocorss[0].genCrossed(tocorss[1]);
     this.family[0] = crossed[0];
     this.family[1] = crossed[1];
     return this;
   }
   genEvolve(){
-    let way = Math.random()*10;
-    if(way < 5){
-      this.genCross();
-    }else{
-      this.genMutate();
+    return this.genQuotation().genSelection().genCross().genMutate();
+  }
+  genQuotation(){
+    this.values = [];
+    this.valsum = 0;
+    this.sortByValue();
+    for(let i = 0;i<this.family.length;i++){
+      if(!this.family[i]) continue;
+      let elval = this.family[i].value();
+      this.values.push(elval)
+      this.valsum += elval;
     }
+    for(let i = 1;i<this.values.length;i++){
+      this.values[i] += this.values[i-1]; 
+    }
+    return this;
+  }
+  genSelection(){
+    let newfamily:Graph[] = [];
+    for(let i = 0;i<this.size;i++){
+      let rnd = Math.random();
+      let j = 0;
+      for(;++i<this.values.length && rnd>this.values[i];);
+      newfamily.push(this.family[i]);
+    }
+    this.family = newfamily;
     return this;
   }
 }

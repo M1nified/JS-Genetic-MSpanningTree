@@ -57,6 +57,9 @@ class Graph {
         return Graph.genCross(this, snd, pivot);
     }
     static genCross(g1, g2, pivot) {
+        if (!g1 || !g2) {
+            return [g1, g2];
+        }
         let tmp1 = g1.slicedHead(pivot).concat(g2.slicedTail(pivot));
         let tmp2 = g1.slicedTail(pivot).concat(g2.slicedHead(pivot));
         return [new Graph(tmp1).sortByWeight(), new Graph(tmp2).sortByWeight()];
@@ -75,8 +78,10 @@ class Graph {
 class MST {
     constructor(god) {
         this.family = [];
-        this.size = 4;
-        this.maxIter = 40;
+        this.size = 100;
+        this.maxIter = 400;
+        this.values = [];
+        this.valsum = 0;
         this.god = god;
     }
     findMST() {
@@ -86,7 +91,7 @@ class MST {
             this.genEvolve();
             console.log(this.family[0].toString(), '\n');
         }
-        return this.god;
+        return this.sortByValue().family[0];
     }
     makeFamily() {
         for (let i = 0; i < this.size; i++) {
@@ -101,28 +106,50 @@ class MST {
         return this;
     }
     genMutate() {
-        this.family[Math.floor(Math.random() * this.family.length)].genMutate();
+        let rnd = Math.floor(Math.random() * (this.family.length - 1));
+        this.family[rnd] && this.family[rnd].genMutate();
         return this;
     }
-    genCrossSelectLinear() {
+    genSelectLinearPair() {
         this.sortByValue();
         return [this.family[0], this.family[1]];
     }
     genCross() {
-        let tocorss = this.genCrossSelectLinear();
+        let tocorss = this.genSelectLinearPair();
         let crossed = tocorss[0].genCrossed(tocorss[1]);
         this.family[0] = crossed[0];
         this.family[1] = crossed[1];
         return this;
     }
     genEvolve() {
-        let way = Math.random() * 10;
-        if (way < 5) {
-            this.genCross();
+        return this.genQuotation().genSelection().genCross().genMutate();
+    }
+    genQuotation() {
+        this.values = [];
+        this.valsum = 0;
+        this.sortByValue();
+        for (let i = 0; i < this.family.length; i++) {
+            if (!this.family[i])
+                continue;
+            let elval = this.family[i].value();
+            this.values.push(elval);
+            this.valsum += elval;
         }
-        else {
-            this.genMutate();
+        for (let i = 1; i < this.values.length; i++) {
+            this.values[i] += this.values[i - 1];
         }
+        return this;
+    }
+    genSelection() {
+        let newfamily = [];
+        for (let i = 0; i < this.size; i++) {
+            let rnd = Math.random();
+            let j = 0;
+            for (; ++i < this.values.length && rnd > this.values[i];)
+                ;
+            newfamily.push(this.family[i]);
+        }
+        this.family = newfamily;
         return this;
     }
 }
