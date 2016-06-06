@@ -1,3 +1,4 @@
+'use strict';
 class Edge {
     constructor(a, b, value) {
         this.weight = 0;
@@ -61,7 +62,7 @@ class Graph {
         return [new Graph(tmp1).sortByWeight(), new Graph(tmp2).sortByWeight()];
     }
     slicedHead(pivot) {
-        return pivot < this.arr.length ? this.arr.slice(0, pivot) : Object.create(this.arr);
+        return pivot < this.arr.length ? this.arr.slice(0, pivot) : Array.apply(null, this.arr);
     }
     slicedTail(pivot) {
         return pivot < this.arr.length ? this.arr.slice(pivot) : [];
@@ -125,11 +126,14 @@ class MST {
         return this;
     }
 }
-(module).exports = {
-    Edge,
-    Graph,
-    MST
-};
+try {
+    (module).exports = {
+        Edge,
+        Graph,
+        MST
+    };
+}
+catch (e) { }
 var graph = new Graph();
 graph.push(new Edge('A', 'B', 3)).push(new Edge('B', 'C', 5)).push(new Edge('A', 'D', 1)).push(new Edge('B', 'D', 3)).push(new Edge('C', 'E', 5)).push(new Edge('B', 'E', 3)).push(new Edge('D', 'E', 3)).push(new Edge('E', 'G', 5)).push(new Edge('D', 'G', 9)).push(new Edge('D', 'F', 5)).push(new Edge('F', 'G', 2));
 let mst = new MST(graph);

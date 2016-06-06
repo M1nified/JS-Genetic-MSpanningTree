@@ -1,3 +1,4 @@
+'use strict';
 class Edge{
   a:string
   b:string
@@ -58,12 +59,13 @@ class Graph {
       return Graph.genCross(this,snd,pivot);
   }
   static genCross(g1:Graph,g2:Graph,pivot:number){
+      // console.log(g1.slicedHead(pivot),g2.slicedTail(pivot))
       let tmp1:Edge[] = g1.slicedHead(pivot).concat(g2.slicedTail(pivot));
       let tmp2:Edge[] = g1.slicedTail(pivot).concat(g2.slicedHead(pivot));
       return [new Graph(tmp1).sortByWeight(),new Graph(tmp2).sortByWeight()];
   }
   slicedHead(pivot:number):Edge[]{
-    return pivot < this.arr.length ? this.arr.slice(0,pivot) : Object.create(this.arr);
+    return pivot < this.arr.length ? this.arr.slice(0,pivot) : Array.apply(null,this.arr);
   }
   slicedTail(pivot:number):Edge[]{
     return pivot < this.arr.length ? this.arr.slice(pivot) : [];
@@ -128,8 +130,10 @@ class MST{
   }
 }
 declare var module: any;
-(module).exports = {
-  Edge,
-  Graph,
-  MST
-}
+try{
+  (module).exports = {
+    Edge,
+    Graph,
+    MST
+  }
+}catch(e){}

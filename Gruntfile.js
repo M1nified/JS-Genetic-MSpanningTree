@@ -36,7 +36,7 @@ module.exports = function(grunt){
       },
       base : {
         files: [
-            {src : 'build/*.js'},
+            {src : ['build/*.js','!build/run.js']},
             {src : 'test/*.js'}
         ]
       }

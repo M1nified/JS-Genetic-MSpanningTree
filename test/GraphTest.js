@@ -40,9 +40,13 @@ describe('Graph class', () => {
       expect(Graph.genCross(graph,graph,1)[1].arr.length).toBe(4);
       expect(Graph.genCross(graph,graph,2)[0].arr.length).toBe(4);
       expect(Graph.genCross(graph,graph,2)[1].arr.length).toBe(4);
-      console.log(Graph.genCross(graph,graph,4)[1])
+      expect(Graph.genCross(graph,graph,3)[0].arr.length).toBe(4);
+      expect(Graph.genCross(graph,graph,3)[1].arr.length).toBe(4);
+      // console.log(Graph.genCross(graph,graph,4)[1])
       expect(Graph.genCross(graph,graph,4)[0].arr.length).toBe(4);
       expect(Graph.genCross(graph,graph,4)[1].arr.length).toBe(4);
+      expect(Graph.genCross(graph,graph,5)[0].arr.length).toBe(4);
+      expect(Graph.genCross(graph,graph,5)[1].arr.length).toBe(4);
     });
       
   });
