@@ -75,6 +75,8 @@ class Graph {
         return this;
     }
 }
+// var graph = new Graph();
+// graph.push(new Edge('A','B',3)).push(new Edge('B','C',5)).push(new Edge('A','D',1)).push(new Edge('B','D',3)).push(new Edge('C','E',5)).push(new Edge('B','E',3)).push(new Edge('D','E',3)).push(new Edge('E','G',5)).push(new Edge('D','G',9)).push(new Edge('D','F',5)).push(new Edge('F','G',2));
 class MST {
     constructor(god) {
         this.family = [];
@@ -86,9 +88,9 @@ class MST {
     }
     findMST() {
         this.makeFamily();
-        console.log(this.family.toString());
         for (let i = 0; i < this.maxIter; i++) {
             this.genEvolve();
+            console.log('---');
             console.log(this.family[0].toString(), '\n');
         }
         return this.sortByValue().family[0];
@@ -116,6 +118,7 @@ class MST {
     }
     genCross() {
         let tocorss = this.genSelectLinearPair();
+        console.log("toctoss:", tocorss);
         let crossed = tocorss[0].genCrossed(tocorss[1]);
         this.family[0] = crossed[0];
         this.family[1] = crossed[1];
@@ -161,7 +164,4 @@ try {
     };
 }
 catch (e) { }
-var graph = new Graph();
-graph.push(new Edge('A', 'B', 3)).push(new Edge('B', 'C', 5)).push(new Edge('A', 'D', 1)).push(new Edge('B', 'D', 3)).push(new Edge('C', 'E', 5)).push(new Edge('B', 'E', 3)).push(new Edge('D', 'E', 3)).push(new Edge('E', 'G', 5)).push(new Edge('D', 'G', 9)).push(new Edge('D', 'F', 5)).push(new Edge('F', 'G', 2));
-let mst = new MST(graph);
 //# sourceMappingURL=main.js.map

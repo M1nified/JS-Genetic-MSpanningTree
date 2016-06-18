@@ -41,5 +41,3 @@ declare class MST {
     genSelection(): MST;
 }
 declare var module: any;
-declare var graph: Graph;
-declare let mst: MST;
