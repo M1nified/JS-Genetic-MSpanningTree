@@ -24,11 +24,17 @@ class Graph {
         this.arr = [];
         this.arr = arr;
     }
+    valueOfCompletness() {
+        let gc = new GraphConnections();
+        let len = gc.parseGraph(this).length;
+        return (len + 1) * 10;
+    }
     value() {
         let sum = 0;
         this.arr.forEach(element => {
             sum += element.inuse !== false ? element.weight : 0;
         });
+        sum *= this.valueOfCompletness();
         return sum;
     }
     randomUse() {
@@ -75,6 +81,78 @@ class Graph {
         return this;
     }
 }
+class GraphConnections extends Array {
+    addEdge(edge) {
+        if (edge.inuse === false) {
+            return this;
+        }
+        let cc = this.findContainingConnection(edge.a);
+        if (this.addToConnection(cc, edge.b) === false) {
+            cc = this.findContainingConnection(edge.b);
+            if (this.addToConnection(cc, edge.a) === false) {
+                this.push([edge.a, edge.b]);
+            }
+        }
+        return this;
+    }
+    consolidate() {
+        for (let i = this.length - 1; i >= 0; i--) {
+            let conn = this[i];
+            for (let j = 0; j < this.length; j++) {
+                if (this.isMergable(conn, this[j])) {
+                    conn.forEach(elem => {
+                        this.addToConnection(this[j], elem);
+                    });
+                    this.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        return this;
+    }
+    findContainingConnection(peak) {
+        for (let connection of this) {
+            let inc = this.isInConnection(connection, peak);
+            if (inc !== false) {
+                return connection;
+            }
+        }
+        return false;
+    }
+    isInConnection(connection, peak) {
+        let index = connection.indexOf(peak);
+        if (index >= 0) {
+            return index;
+        }
+        else {
+            return false;
+        }
+    }
+    addToConnection(connection, peak) {
+        if (Array.isArray(connection) && this.isInConnection(connection, peak) === false) {
+            connection.push(peak);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    parseGraph(graph) {
+        graph.arr.forEach(edge => {
+            this.addEdge(edge);
+        });
+        this.consolidate();
+        return this;
+    }
+    isMergable(a, b) {
+        for (let el of a) {
+            if (b.indexOf(el) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
 // var graph = new Graph();
 // graph.push(new Edge('A','B',3)).push(new Edge('B','C',5)).push(new Edge('A','D',1)).push(new Edge('B','D',3)).push(new Edge('C','E',5)).push(new Edge('B','E',3)).push(new Edge('D','E',3)).push(new Edge('E','G',5)).push(new Edge('D','G',9)).push(new Edge('D','F',5)).push(new Edge('F','G',2));
 class MST {
@@ -91,7 +169,7 @@ class MST {
         for (let i = 0; i < this.maxIter; i++) {
             this.genEvolve();
             console.log('---');
-            console.log(this.family[0].toString(), '\n');
+            console.log(this.family[0].arr.length);
         }
         return this.sortByValue().family[0];
     }
@@ -160,6 +238,7 @@ try {
     (module).exports = {
         Edge,
         Graph,
+        GraphConnections,
         MST
     };
 }

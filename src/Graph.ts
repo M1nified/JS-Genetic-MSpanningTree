@@ -26,11 +26,18 @@ class Graph {
   constructor(arr:Edge[]=[]){
     this.arr = arr;
   }
-  value():number{//less is better
+  valueOfCompletness():number{
+    let gc = new GraphConnections();
+    let len = gc.parseGraph(this).length;
+    return (len + 1) * 10;
+  }
+
+  value():number{//the less the better
     let sum = 0;
     this.arr.forEach(element => {
       sum += element.inuse !== false ? element.weight : 0;
     });
+    sum *= this.valueOfCompletness()
     return sum;
   }
   randomUse():Graph{

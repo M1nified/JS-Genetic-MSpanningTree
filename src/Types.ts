@@ -3,6 +3,7 @@ try{
   (module).exports = {
     Edge,
     Graph,
+    GraphConnections,
     MST
   }
 }catch(e){}

@@ -11,6 +11,7 @@ declare class Edge {
 declare class Graph {
     arr: Edge[];
     constructor(arr?: Edge[]);
+    valueOfCompletness(): number;
     value(): number;
     randomUse(): Graph;
     push(edge: Edge): Graph;
@@ -21,6 +22,15 @@ declare class Graph {
     slicedHead(pivot: number): Edge[];
     slicedTail(pivot: number): Edge[];
     genMutate(): Graph;
+}
+declare class GraphConnections extends Array<string[]> {
+    addEdge(edge: Edge): GraphConnections;
+    consolidate(): GraphConnections;
+    findContainingConnection(peak: string): string[] | boolean;
+    isInConnection(connection: string[], peak: string): number | boolean;
+    addToConnection(connection: string[] | boolean, peak: string): boolean;
+    parseGraph(graph: Graph): GraphConnections;
+    isMergable(a: string[], b: string[]): boolean;
 }
 declare class MST {
     god: Graph;

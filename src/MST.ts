@@ -20,7 +20,8 @@ class MST{
     for(let i = 0;i<this.maxIter;i++){
       this.genEvolve();
       console.log('---');
-      console.log(this.family[0].toString(),'\n');
+    //   console.log(this.family[0].toString(),'\n');
+    console.log(this.family[0].arr.length)
     }
     return this.sortByValue().family[0];
   }
@@ -43,6 +44,7 @@ class MST{
   }
   genSelectLinearPair(){
     this.sortByValue();
+    // console.log(this.family[0].arr)
     return [this.family[0],this.family[1]];
   }
   genCross(){

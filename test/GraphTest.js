@@ -51,7 +51,5 @@ describe('Graph class', () => {
       
   });
     
-    
-    
 });
   
